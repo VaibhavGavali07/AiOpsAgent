@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-06-27T19:15:38.166Z",
+  "projectRoot": "C:\\Users\\gaval\\Documents\\Agents\\AuditAgent\\opsintel-agentic-dashboard\\backend",
+  "structure": {
+    "hasPackageJson": true,
+    "hasTsConfig": false,
+    "hasClaudeConfig": true,
+    "hasClaudeFlow": true
+  },
+  "scannedAt": 1782587738166
+}

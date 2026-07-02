@@ -1,0 +1,399 @@
+INFO:     Will watch for changes in these directories: ['C:\\Users\\gaval\\Documents\\Agents\\AuditAgent\\opsintel-agentic-dashboard\\backend']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [39984] using WatchFiles
+INFO:     Started server process [38484]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:56731 - "GET /agents/runs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60344 - "GET /agents/runs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60345 - "GET /agents/runs/01a949b3-b6b0-4dc5-be61-8f1488b630d9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55166 - "GET /agents/runs/01a949b3-b6b0-4dc5-be61-8f1488b630d9/messages HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55287 - "GET /settings/llm/providers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63321 - "GET /settings/llm/credentials HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63547 - "GET /settings/llm/agents HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57717 - "GET /agents/runs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57664 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60981 - "POST /api/agents/run HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60982 - "GET /api/settings/llm/providers HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60983 - "POST /api/agents/run HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60985 - "GET /openapi.json HTTP/1.1" 200 OK
+{"run_id": "f88eaca2-fa5b-478f-83dc-d01dd2a276f2", "objective": "Summarize all incidents from the last 90 days", "event": "run_queued", "level": "info", "timestamp": "2026-06-28T17:35:22.826056Z"}
+INFO:     127.0.0.1:60987 - "POST /agents/run HTTP/1.1" 202 Accepted
+{"run_id": "f88eaca2-fa5b-478f-83dc-d01dd2a276f2", "objective": "Summarize all incidents from the last 90 days", "event": "graph_start", "level": "info", "timestamp": "2026-06-28T17:35:23.572131Z"}
+{"error": "No model assignment found for agent 'ceo_supervisor'. Configure it via POST /settings/llm/agents", "event": "ceo_initial_fallback", "level": "warning", "timestamp": "2026-06-28T17:35:23.576288Z"}
+{"error": "No model assignment found for agent 'security'. Configure it via POST /settings/llm/agents", "event": "security_pre_llm_skip", "level": "warning", "timestamp": "2026-06-28T17:35:23.577391Z"}
+{"passed": true, "flags": [], "run_id": "f88eaca2-fa5b-478f-83dc-d01dd2a276f2", "event": "security_pre", "level": "info", "timestamp": "2026-06-28T17:35:23.577430Z"}
+{"note": "returning empty list; demo data will be used", "event": "servicenow_not_configured", "level": "info", "timestamp": "2026-06-28T17:35:23.578195Z"}
+{"ticket_count": 36, "run_id": "f88eaca2-fa5b-478f-83dc-d01dd2a276f2", "event": "servicenow_demo_mode", "level": "info", "timestamp": "2026-06-28T17:35:23.578233Z"}
+{"tickets": 36, "redactions": 0, "run_id": "f88eaca2-fa5b-478f-83dc-d01dd2a276f2", "event": "security_data", "level": "info", "timestamp": "2026-06-28T17:35:23.579770Z"}
+{"error": "No model assignment found for agent 'analytical'. Configure it via POST /settings/llm/agents", "event": "analytical_fallback", "level": "warning", "timestamp": "2026-06-28T17:35:23.581096Z"}
+{"error": "No model assignment found for agent 'security'. Configure it via POST /settings/llm/agents", "event": "security_output_llm_skip", "level": "warning", "timestamp": "2026-06-28T17:35:23.582246Z"}
+{"passed": true, "flags": [], "run_id": "f88eaca2-fa5b-478f-83dc-d01dd2a276f2", "event": "security_output", "level": "info", "timestamp": "2026-06-28T17:35:23.582285Z"}
+{"error": "No model assignment found for agent 'graphical_representer'. Configure it via POST /settings/llm/agents", "event": "graphical_fallback", "level": "warning", "timestamp": "2026-06-28T17:35:23.583394Z"}
+{"error": "No model assignment found for agent 'ceo_supervisor'. Configure it via POST /settings/llm/agents", "event": "ceo_final_fallback", "level": "warning", "timestamp": "2026-06-28T17:35:23.584279Z"}
+{"run_id": "f88eaca2-fa5b-478f-83dc-d01dd2a276f2", "status": "completed", "event": "graph_done", "level": "info", "timestamp": "2026-06-28T17:35:23.584752Z"}
+{"run_id": "f88eaca2-fa5b-478f-83dc-d01dd2a276f2", "status": "completed", "event": "run_completed", "level": "info", "timestamp": "2026-06-28T17:35:23.615118Z"}
+INFO:     127.0.0.1:55854 - "GET /agents/runs/f88eaca2-fa5b-478f-83dc-d01dd2a276f2 HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'app\agents\analytical_agent.py'. Reloading...
+ {"run_id": "7fdd145e-c835-4275-b2c6-6832bb18f12e", "objective": "Full 90-day incident review with RITM compliance", "event": "run_queued", "level": "info", "timestamp": "2026-06-28T17:36:05.631097Z"}
+INFO:     127.0.0.1:51605 - "POST /agents/run HTTP/1.1" 202 Accepted
+{"run_id": "7fdd145e-c835-4275-b2c6-6832bb18f12e", "objective": "Full 90-day incident review with RITM compliance", "event": "graph_start", "level": "info", "timestamp": "2026-06-28T17:36:05.642109Z"}
+{"error": "No model assignment found for agent 'ceo_supervisor'. Configure it via POST /settings/llm/agents", "event": "ceo_initial_fallback", "level": "warning", "timestamp": "2026-06-28T17:36:05.644289Z"}
+{"error": "No model assignment found for agent 'security'. Configure it via POST /settings/llm/agents", "event": "security_pre_llm_skip", "level": "warning", "timestamp": "2026-06-28T17:36:05.645374Z"}
+{"passed": true, "flags": [], "run_id": "7fdd145e-c835-4275-b2c6-6832bb18f12e", "event": "security_pre", "level": "info", "timestamp": "2026-06-28T17:36:05.645416Z"}
+{"note": "returning empty list; demo data will be used", "event": "servicenow_not_configured", "level": "info", "timestamp": "2026-06-28T17:36:05.645941Z"}
+{"ticket_count": 36, "run_id": "7fdd145e-c835-4275-b2c6-6832bb18f12e", "event": "servicenow_demo_mode", "level": "info", "timestamp": "2026-06-28T17:36:05.645976Z"}
+{"tickets": 36, "redactions": 0, "run_id": "7fdd145e-c835-4275-b2c6-6832bb18f12e", "event": "security_data", "level": "info", "timestamp": "2026-06-28T17:36:05.647057Z"}
+{"error": "No model assignment found for agent 'analytical'. Configure it via POST /settings/llm/agents", "event": "analytical_fallback", "level": "warning", "timestamp": "2026-06-28T17:36:05.648372Z"}
+{"error": "No model assignment found for agent 'security'. Configure it via POST /settings/llm/agents", "event": "security_output_llm_skip", "level": "warning", "timestamp": "2026-06-28T17:36:05.649689Z"}
+{"passed": true, "flags": [], "run_id": "7fdd145e-c835-4275-b2c6-6832bb18f12e", "event": "security_output", "level": "info", "timestamp": "2026-06-28T17:36:05.649729Z"}
+{"error": "No model assignment found for agent 'graphical_representer'. Configure it via POST /settings/llm/agents", "event": "graphical_fallback", "level": "warning", "timestamp": "2026-06-28T17:36:05.651068Z"}
+{"error": "No model assignment found for agent 'ceo_supervisor'. Configure it via POST /settings/llm/agents", "event": "ceo_final_fallback", "level": "warning", "timestamp": "2026-06-28T17:36:05.652202Z"}
+{"run_id": "7fdd145e-c835-4275-b2c6-6832bb18f12e", "status": "completed", "event": "graph_done", "level": "info", "timestamp": "2026-06-28T17:36:05.652855Z"}
+{"run_id": "7fdd145e-c835-4275-b2c6-6832bb18f12e", "status": "completed", "event": "run_completed", "level": "info", "timestamp": "2026-06-28T17:36:05.693164Z"}
+INFO:     127.0.0.1:51606 - "GET /agents/runs/7fdd145e-c835-4275-b2c6-6832bb18f12e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51607 - "GET /agents/runs/7fdd145e-c835-4275-b2c6-6832bb18f12e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51615 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54100 - "GET /health HTTP/1.1" 200 OK
+{"run_id": "89134891-fca3-4ff8-9a95-5836260cc62d", "objective": "Full 90-day incident review", "event": "run_queued", "level": "info", "timestamp": "2026-06-28T17:38:27.063399Z"}
+INFO:     127.0.0.1:61420 - "POST /agents/run HTTP/1.1" 202 Accepted
+{"run_id": "89134891-fca3-4ff8-9a95-5836260cc62d", "objective": "Full 90-day incident review", "event": "graph_start", "level": "info", "timestamp": "2026-06-28T17:38:27.071716Z"}
+{"error": "No model assignment found for agent 'ceo_supervisor'. Configure it via POST /settings/llm/agents", "event": "ceo_initial_fallback", "level": "warning", "timestamp": "2026-06-28T17:38:27.073299Z"}
+{"error": "No model assignment found for agent 'security'. Configure it via POST /settings/llm/agents", "event": "security_pre_llm_skip", "level": "warning", "timestamp": "2026-06-28T17:38:27.074410Z"}
+{"passed": true, "flags": [], "run_id": "89134891-fca3-4ff8-9a95-5836260cc62d", "event": "security_pre", "level": "info", "timestamp": "2026-06-28T17:38:27.074451Z"}
+{"note": "returning empty list; demo data will be used", "event": "servicenow_not_configured", "level": "info", "timestamp": "2026-06-28T17:38:27.075012Z"}
+{"ticket_count": 36, "run_id": "89134891-fca3-4ff8-9a95-5836260cc62d", "event": "servicenow_demo_mode", "level": "info", "timestamp": "2026-06-28T17:38:27.075047Z"}
+{"tickets": 36, "redactions": 0, "run_id": "89134891-fca3-4ff8-9a95-5836260cc62d", "event": "security_data", "level": "info", "timestamp": "2026-06-28T17:38:27.076127Z"}
+{"error": "No model assignment found for agent 'analytical'. Configure it via POST /settings/llm/agents", "event": "analytical_fallback", "level": "warning", "timestamp": "2026-06-28T17:38:27.077656Z"}
+{"error": "No model assignment found for agent 'security'. Configure it via POST /settings/llm/agents", "event": "security_output_llm_skip", "level": "warning", "timestamp": "2026-06-28T17:38:27.079350Z"}
+{"passed": true, "flags": [], "run_id": "89134891-fca3-4ff8-9a95-5836260cc62d", "event": "security_output", "level": "info", "timestamp": "2026-06-28T17:38:27.079392Z"}
+{"error": "No model assignment found for agent 'graphical_representer'. Configure it via POST /settings/llm/agents", "event": "graphical_fallback", "level": "warning", "timestamp": "2026-06-28T17:38:27.080742Z"}
+{"error": "No model assignment found for agent 'ceo_supervisor'. Configure it via POST /settings/llm/agents", "event": "ceo_final_fallback", "level": "warning", "timestamp": "2026-06-28T17:38:27.081771Z"}
+{"run_id": "89134891-fca3-4ff8-9a95-5836260cc62d", "status": "completed", "event": "graph_done", "level": "info", "timestamp": "2026-06-28T17:38:27.082198Z"}
+{"run_id": "89134891-fca3-4ff8-9a95-5836260cc62d", "status": "completed", "event": "run_completed", "level": "info", "timestamp": "2026-06-28T17:38:27.116961Z"}
+INFO:     127.0.0.1:61421 - "GET /agents/runs/89134891-fca3-4ff8-9a95-5836260cc62d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59467 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52967 - "GET / HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:52967 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60905 - "GET /api/dashboard/executive-summary HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63516 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56826 - "GET /api/dashboard/kpis HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65206 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60905 - "OPTIONS /api/ai/insights HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61386 - "GET /api/problems/recommendations HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55091 - "GET /api/sla/monthly HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63516 - "GET /api/incidents/recurring HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56826 - "GET /api/predictions/next-month HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60905 - "GET /api/workforce/productivity HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65206 - "GET /api/change-requests/correlation HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61386 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63516 - "GET /api/meta HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55091 - "GET /api/workforce/anomalies HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56826 - "GET /api/capabilities HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60905 - "GET /api/dashboard/executive-summary HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61386 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65206 - "GET /api/dashboard/kpis HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63516 - "POST /api/ai/insights HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55091 - "GET /api/sla/monthly HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56826 - "GET /api/incidents/recurring HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60905 - "GET /api/problems/recommendations HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61386 - "POST /api/ai/insights HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63516 - "GET /api/workforce/productivity HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55091 - "GET /api/change-requests/correlation HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65206 - "GET /api/predictions/next-month HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60905 - "GET /api/workforce/anomalies HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61386 - "GET /api/capabilities HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56826 - "GET /api/meta HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51613 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64796 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58215 - "GET /api/incidents/categories HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51613 - "GET /api/dashboard/module-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56557 - "GET /api/dashboard/priority-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51683 - "GET /api/incidents?limit=15&offset=0 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63790 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64796 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58215 - "GET /api/incidents/categories HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56557 - "GET /api/dashboard/priority-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51613 - "GET /api/dashboard/module-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51683 - "GET /api/incidents?limit=15&offset=0 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51683 - "GET /api/dashboard/executive-summary HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56557 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58215 - "POST /api/ai/insights HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51613 - "GET /api/dashboard/kpis HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64796 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63790 - "GET /api/change-requests/correlation HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51683 - "GET /api/problems/recommendations HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56557 - "GET /api/sla/monthly HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58215 - "GET /api/incidents/recurring HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51613 - "GET /api/predictions/next-month HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64796 - "GET /api/workforce/productivity HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51683 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63790 - "GET /api/workforce/anomalies HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56557 - "GET /api/dashboard/executive-summary HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58215 - "GET /api/dashboard/kpis HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64796 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51613 - "POST /api/ai/insights HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51683 - "GET /api/change-requests/correlation HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63790 - "GET /api/problems/recommendations HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64796 - "GET /api/predictions/next-month HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58215 - "GET /api/incidents/recurring HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56557 - "GET /api/sla/monthly HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51613 - "GET /api/workforce/productivity HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51683 - "GET /api/workforce/anomalies HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58023 - "GET /api/dashboard/executive-summary HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56229 - "GET /api/dashboard/kpis HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60598 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65052 - "GET /api/change-requests/correlation HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58281 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65466 - "GET /api/problems/recommendations HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56229 - "GET /api/incidents/recurring HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58023 - "GET /api/sla/monthly HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60598 - "POST /api/ai/insights HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65052 - "GET /api/dashboard/executive-summary HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58281 - "GET /api/dashboard/kpis HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65466 - "GET /api/predictions/next-month HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56229 - "GET /api/workforce/productivity HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58023 - "GET /api/workforce/anomalies HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60598 - "GET /api/meta HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65052 - "GET /api/capabilities HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58281 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65466 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56229 - "GET /api/change-requests/correlation HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58023 - "GET /api/problems/recommendations HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65052 - "GET /api/incidents/recurring HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60598 - "POST /api/ai/insights HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58281 - "GET /api/sla/monthly HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65466 - "GET /api/predictions/next-month HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56229 - "GET /api/workforce/productivity HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58023 - "GET /api/workforce/anomalies HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65052 - "GET /api/meta HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60598 - "GET /api/capabilities HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60598 - "GET /api/agents/metrics HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65052 - "GET /api/pipeline/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58023 - "GET /api/agents/org HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56229 - "GET /api/agents/governance HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65466 - "GET /api/agents/metrics HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60598 - "GET /api/pipeline/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65052 - "GET /api/agents/org HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58023 - "GET /api/agents/governance HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58023 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65052 - "GET /api/incidents/categories HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60598 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56229 - "GET /api/dashboard/priority-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65466 - "GET /api/dashboard/module-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58023 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65052 - "GET /api/incidents/categories HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60598 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56229 - "GET /api/dashboard/priority-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63081 - "GET /api/incidents?limit=15&offset=0 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65466 - "GET /api/dashboard/module-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56229 - "GET /api/incidents?limit=15&offset=0 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56229 - "GET /api/dashboard/executive-summary HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63081 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65466 - "GET /api/dashboard/kpis HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65052 - "GET /api/change-requests/correlation HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60598 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58023 - "GET /api/sla/monthly HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56229 - "GET /api/problems/recommendations HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63081 - "GET /api/incidents/recurring HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65466 - "POST /api/ai/insights HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65052 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60598 - "GET /api/change-requests/correlation HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58023 - "GET /api/predictions/next-month HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56229 - "GET /api/workforce/productivity HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65052 - "GET /api/dashboard/kpis HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63081 - "GET /api/workforce/anomalies HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65466 - "GET /api/dashboard/executive-summary HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60598 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58023 - "POST /api/ai/insights HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56229 - "GET /api/problems/recommendations HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65052 - "GET /api/sla/monthly HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60598 - "GET /api/workforce/productivity HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63081 - "GET /api/incidents/recurring HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58023 - "GET /api/workforce/anomalies HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65466 - "GET /api/predictions/next-month HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:52184 - "GET /api/health HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:52186 - "GET / HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60771 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60774 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49707 - "GET /api/dashboard/executive-summary HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57764 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61246 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49426 - "GET /api/change-requests/correlation HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:54977 - "GET /api/dashboard/kpis HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50980 - "GET /api/problems/recommendations HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49707 - "GET /api/sla/monthly HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57764 - "GET /api/incidents/recurring HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61246 - "OPTIONS /api/ai/insights HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54977 - "GET /api/workforce/productivity HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49426 - "GET /api/predictions/next-month HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50980 - "GET /api/workforce/anomalies HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57764 - "GET /api/meta HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61246 - "GET /api/capabilities HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49707 - "GET /api/dashboard/executive-summary HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:54977 - "GET /api/dashboard/kpis HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50980 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49426 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57764 - "GET /api/change-requests/correlation HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61246 - "GET /api/problems/recommendations HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49707 - "OPTIONS /api/ai/insights HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54977 - "GET /api/sla/monthly HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50980 - "GET /api/incidents/recurring HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57764 - "GET /api/predictions/next-month HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61246 - "POST /api/ai/insights HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49426 - "GET /api/workforce/productivity HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49707 - "GET /api/workforce/anomalies HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:54977 - "GET /api/meta HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50980 - "GET /api/capabilities HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57764 - "POST /api/ai/insights HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51986 - "GET /api/dashboard/executive-summary HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58477 - "GET /api/dashboard/kpis HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64930 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59907 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51986 - "GET /api/problems/recommendations HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64536 - "GET /api/change-requests/correlation HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50191 - "GET /api/sla/monthly HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64930 - "GET /api/incidents/recurring HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59907 - "POST /api/ai/insights HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64536 - "GET /api/predictions/next-month HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51986 - "POST /api/ai/insights HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59907 - "GET /api/sla/monthly HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58477 - "GET /api/incidents/recurring HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64930 - "GET /api/workforce/productivity HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50191 - "GET /api/workforce/anomalies HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64536 - "GET /api/meta HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58477 - "GET /api/dashboard/kpis HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64930 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51986 - "GET /api/capabilities HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50191 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59907 - "GET /api/dashboard/executive-summary HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64536 - "GET /api/change-requests/correlation HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58477 - "GET /api/problems/recommendations HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51986 - "GET /api/workforce/productivity HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64930 - "GET /api/predictions/next-month HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59907 - "GET /api/meta HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50191 - "GET /api/workforce/anomalies HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64536 - "GET /api/capabilities HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57513 - "GET /api/dashboard/executive-summary HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50916 - "GET /api/dashboard/kpis HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50845 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57513 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:53688 - "GET /api/change-requests/correlation HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58239 - "GET /api/problems/recommendations HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57530 - "GET /api/sla/monthly HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50916 - "GET /api/incidents/recurring HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50845 - "POST /api/ai/insights HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57513 - "GET /api/predictions/next-month HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:53688 - "GET /api/workforce/productivity HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58239 - "GET /api/workforce/anomalies HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50845 - "GET /api/dashboard/executive-summary HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50916 - "GET /api/capabilities HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57530 - "GET /api/meta HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:53688 - "GET /api/problems/recommendations HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58239 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57513 - "GET /api/dashboard/kpis HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50845 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50916 - "GET /api/change-requests/correlation HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57530 - "GET /api/incidents/recurring HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:53688 - "GET /api/sla/monthly HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58239 - "POST /api/ai/insights HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57513 - "GET /api/predictions/next-month HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50845 - "GET /api/workforce/productivity HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50916 - "GET /api/workforce/anomalies HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57530 - "GET /api/capabilities HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58239 - "GET /api/meta HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50772 - "GET /api HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59690 - "GET /api/agents/runs HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61367 - "GET /api/dashboard/executive-summary HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58508 - "GET /api/dashboard/kpis HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59967 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61367 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58508 - "POST /api/ai/insights HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50866 - "GET /api/problems/recommendations HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55844 - "GET /api/change-requests/correlation HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51655 - "GET /api/sla/monthly HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59967 - "GET /api/incidents/recurring HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61367 - "GET /api/workforce/productivity HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58508 - "GET /api/predictions/next-month HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51655 - "GET /api/capabilities HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50866 - "GET /api/workforce/anomalies HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55844 - "GET /api/meta HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59967 - "GET /api/dashboard/executive-summary HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61367 - "GET /api/dashboard/kpis HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58508 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51655 - "GET /api/change-requests/correlation HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50866 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55844 - "GET /api/problems/recommendations HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61367 - "GET /api/incidents/recurring HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58508 - "POST /api/ai/insights HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59967 - "GET /api/sla/monthly HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51655 - "GET /api/workforce/productivity HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50866 - "GET /api/predictions/next-month HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61367 - "GET /api/workforce/anomalies HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58508 - "GET /api/meta HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55844 - "GET /api/capabilities HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57060 - "GET /api/health HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55998 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57220 - "GET /api/dashboard/executive-summary HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63041 - "GET /api/dashboard/kpis HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58147 - "GET /api/change-requests/correlation HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58555 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:53529 - "GET /api/problems/recommendations HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50543 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57220 - "OPTIONS /api/ai/insights HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63041 - "GET /api/sla/monthly HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58147 - "GET /api/incidents/recurring HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58555 - "GET /api/predictions/next-month HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:53529 - "OPTIONS /api/ai/insights HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50543 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57220 - "GET /api/change-requests/correlation HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63041 - "GET /api/workforce/productivity HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58147 - "GET /api/workforce/anomalies HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58555 - "GET /api/capabilities HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:53529 - "GET /api/meta HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50543 - "GET /api/dashboard/executive-summary HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57220 - "GET /api/dashboard/kpis HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58147 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63041 - "GET /api/problems/recommendations HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58555 - "GET /api/sla/monthly HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58147 - "POST /api/ai/insights HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57220 - "GET /api/predictions/next-month HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:53529 - "GET /api/incidents/recurring HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50543 - "POST /api/ai/insights HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63041 - "GET /api/workforce/productivity HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58147 - "GET /api/capabilities HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58555 - "GET /api/workforce/anomalies HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57220 - "GET /api/meta HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64228 - "GET /api/health HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57356 - "GET /api/dashboard/executive-summary HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60106 - "GET /api/dashboard/kpis HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57356 - "POST /api/ai/insights HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64970 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60106 - "GET /api/sla/monthly HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55569 - "GET /api/problems/recommendations HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56826 - "GET /api/change-requests/correlation HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51693 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57356 - "GET /api/incidents/recurring HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64970 - "GET /api/predictions/next-month HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60106 - "GET /api/workforce/productivity HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55569 - "GET /api/workforce/anomalies HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56826 - "GET /api/meta HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57356 - "GET /api/dashboard/executive-summary HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64970 - "GET /api/dashboard/kpis HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51693 - "GET /api/capabilities HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55569 - "GET /api/dashboard/incident-trends HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56826 - "GET /api/sla/monthly HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57356 - "GET /api/problems/recommendations HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64970 - "GET /api/change-requests/correlation HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60106 - "POST /api/ai/insights HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51693 - "GET /api/dashboard/system-distribution HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55569 - "GET /api/incidents/recurring HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57356 - "GET /api/workforce/productivity HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64970 - "GET /api/workforce/anomalies HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56826 - "GET /api/predictions/next-month HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51693 - "GET /api/capabilities HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60106 - "GET /api/meta HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65399 - "GET /api/health HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57432 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49891 - "GET /api/health HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49894 - "GET /api/health HTTP/1.1" 404 Not Found

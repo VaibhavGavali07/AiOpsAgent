@@ -1,0 +1,142 @@
+{
+  "running": true,
+  "startedAt": "2026-06-27T17:01:18.197Z",
+  "workers": {
+    "map": {
+      "runCount": 8,
+      "successCount": 8,
+      "failureCount": 0,
+      "averageDurationMs": 25.5,
+      "isRunning": false,
+      "nextRun": "2026-06-27T19:26:08.619Z",
+      "lastStartedAt": "2026-06-27T19:15:38.161Z",
+      "lastRun": "2026-06-27T19:15:38.186Z"
+    },
+    "audit": {
+      "runCount": 11,
+      "successCount": 11,
+      "failureCount": 0,
+      "averageDurationMs": 33663.63636363636,
+      "isRunning": false,
+      "nextRun": "2026-06-27T19:16:44.454Z",
+      "lastStartedAt": "2026-06-27T19:15:37.367Z",
+      "lastRun": "2026-06-27T19:15:38.202Z"
+    },
+    "optimize": {
+      "runCount": 8,
+      "successCount": 8,
+      "failureCount": 0,
+      "averageDurationMs": 35653.125,
+      "isRunning": false,
+      "nextRun": "2026-06-27T19:26:08.623Z",
+      "lastStartedAt": "2026-06-27T19:15:38.168Z",
+      "lastRun": "2026-06-27T19:15:38.217Z"
+    },
+    "consolidate": {
+      "runCount": 4,
+      "successCount": 4,
+      "failureCount": 0,
+      "averageDurationMs": 15.25,
+      "isRunning": false,
+      "nextRun": "2026-06-27T19:26:08.625Z",
+      "lastStartedAt": "2026-06-27T19:15:37.330Z",
+      "lastRun": "2026-06-27T19:15:37.342Z"
+    },
+    "testgaps": {
+      "runCount": 6,
+      "successCount": 6,
+      "failureCount": 0,
+      "averageDurationMs": 86623.5,
+      "isRunning": false,
+      "nextRun": "2026-06-27T19:30:03.982Z",
+      "lastStartedAt": "2026-06-27T19:15:37.124Z",
+      "lastRun": "2026-06-27T19:15:37.268Z"
+    },
+    "predict": {
+      "runCount": 0,
+      "successCount": 0,
+      "failureCount": 0,
+      "averageDurationMs": 0,
+      "isRunning": false
+    },
+    "document": {
+      "runCount": 0,
+      "successCount": 0,
+      "failureCount": 0,
+      "averageDurationMs": 0,
+      "isRunning": false
+    }
+  },
+  "config": {
+    "autoStart": false,
+    "logDir": "C:\\Users\\gaval\\Documents\\Agents\\AuditAgent\\opsintel-agentic-dashboard\\backend\\.claude-flow\\logs",
+    "stateFile": "C:\\Users\\gaval\\Documents\\Agents\\AuditAgent\\opsintel-agentic-dashboard\\backend\\.claude-flow\\daemon-state.json",
+    "maxConcurrent": 2,
+    "workerTimeoutMs": 960000,
+    "resourceThresholds": {
+      "maxCpuLoad": 19.200000000000003,
+      "minFreeMemoryPercent": 10
+    },
+    "ttlMs": 43200000,
+    "idleShutdownMs": 0,
+    "workers": [
+      {
+        "type": "map",
+        "intervalMs": 900000,
+        "offsetMs": 0,
+        "priority": "normal",
+        "description": "Codebase mapping",
+        "enabled": true
+      },
+      {
+        "type": "audit",
+        "intervalMs": 600000,
+        "offsetMs": 120000,
+        "priority": "critical",
+        "description": "Security analysis",
+        "enabled": true
+      },
+      {
+        "type": "optimize",
+        "intervalMs": 900000,
+        "offsetMs": 240000,
+        "priority": "high",
+        "description": "Performance optimization",
+        "enabled": true
+      },
+      {
+        "type": "consolidate",
+        "intervalMs": 1800000,
+        "offsetMs": 360000,
+        "priority": "low",
+        "description": "Memory consolidation",
+        "enabled": true
+      },
+      {
+        "type": "testgaps",
+        "intervalMs": 1200000,
+        "offsetMs": 480000,
+        "priority": "normal",
+        "description": "Test coverage analysis",
+        "enabled": true
+      },
+      {
+        "type": "predict",
+        "intervalMs": 600000,
+        "offsetMs": 0,
+        "priority": "low",
+        "description": "Predictive preloading",
+        "enabled": false
+      },
+      {
+        "type": "document",
+        "intervalMs": 3600000,
+        "offsetMs": 0,
+        "priority": "low",
+        "description": "Auto-documentation",
+        "enabled": false
+      }
+    ]
+  },
+  "savedAt": "2026-06-27T19:15:38.221Z"
+}

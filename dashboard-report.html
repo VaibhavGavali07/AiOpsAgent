@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>OpsIntel — Executive Dashboard · Q2 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ── Reset & base ── */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:#F7F8F9;color:#172B4D;
+  font-size:13px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  letter-spacing:-0.003em;
+}
+
+/* ── Layout shell ── */
+.app{display:flex;flex-direction:column;height:100vh}
+
+/* ── Top nav ── */
+.topnav{
+  height:48px;flex-shrink:0;
+  background:#fff;border-bottom:1px solid #DFE1E6;
+  box-shadow:0 1px 0 rgba(9,30,66,.08);
+  display:flex;align-items:center;gap:10px;padding:0 16px;
+  position:sticky;top:0;z-index:40;
+}
+.topnav-appswitch{
+  display:flex;align-items:center;justify-content:center;
+  width:32px;height:32px;border-radius:6px;
+  background:transparent;border:none;cursor:pointer;color:#344563;
+  flex-shrink:0;
+}
+.topnav-appswitch:hover{background:#F1F2F4}
+.topnav-brand{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0}
+.topnav-brand-icon{
+  width:24px;height:24px;border-radius:5px;
+  background:#0c66e4;display:flex;align-items:center;justify-content:center;
+}
+.topnav-brand-icon svg{width:13px;height:13px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.topnav-brand-name{font-size:14px;font-weight:700;color:#172B4D;line-height:1}
+.topnav-search{flex:1;max-width:320px;margin:0 16px;position:relative}
+.topnav-search svg{position:absolute;left:9px;top:50%;transform:translateY(-50%);width:13px;height:13px;stroke:#7A869A;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.topnav-search input{
+  width:100%;height:32px;
+  padding:0 10px 0 30px;
+  border:1px solid #DFE1E6;border-radius:6px;
+  background:#F8FAFC;color:#172B4D;font-size:12px;
+  font-family:inherit;outline:none;
+}
+.topnav-search input:focus{background:#fff;border-color:#0c66e4;box-shadow:0 0 0 2px rgba(12,102,228,.12)}
+.topnav-right{display:flex;align-items:center;gap:4px;margin-left:auto}
+.btn-primary{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  height:32px;padding:0 12px;
+  background:#0c66e4;color:#fff;
+  border:none;border-radius:5px;
+  font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;
+  transition:background .1s;
+}
+.btn-primary:hover{background:#0747a6}
+.btn-primary svg{width:13px;height:13px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.btn-icon{
+  display:flex;align-items:center;justify-content:center;
+  width:32px;height:32px;border-radius:5px;
+  background:transparent;border:none;cursor:pointer;color:#344563;
+}
+.btn-icon:hover{background:#F1F2F4}
+.btn-icon svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.user-avatar{
+  width:28px;height:28px;border-radius:50%;
+  background:#0c66e4;color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;
+  border:none;cursor:pointer;flex-shrink:0;margin-left:4px;
+}
+.user-avatar:hover{background:#0747a6}
+
+/* ── Body layout ── */
+.body-wrap{display:flex;flex:1;overflow:hidden}
+
+/* ── Sidebar ── */
+.sidebar{
+  width:256px;flex-shrink:0;
+  background:#F8FAFC;border-right:1px solid #DFE1E6;
+  display:flex;flex-direction:column;
+  overflow-y:auto;
+}
+.sidebar-header{
+  padding:12px 16px;border-bottom:1px solid #DFE1E6;
+  display:flex;align-items:center;gap:10px;flex-shrink:0;
+}
+.sidebar-icon{
+  width:28px;height:28px;border-radius:7px;
+  background:linear-gradient(135deg,#0c66e4,#0747a6);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.sidebar-icon svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sidebar-header-text p:first-child{font-size:13px;font-weight:700;color:#172B4D;line-height:1.2}
+.sidebar-header-text p:last-child{font-size:11px;color:#5E6C84;line-height:1.3}
+.sidebar-nav{flex:1;padding:12px 8px;display:flex;flex-direction:column;gap:16px}
+.nav-group-label{
+  padding:0 12px;margin-bottom:4px;
+  font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.1em;color:#5E6C84;
+}
+.nav-items{display:flex;flex-direction:column;gap:2px}
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:7px 12px;border-radius:5px;
+  font-size:13px;color:#5E6C84;text-decoration:none;
+  position:relative;cursor:pointer;transition:background .1s,color .1s;
+  border:none;background:transparent;font-family:inherit;width:100%;text-align:left;
+}
+.nav-item:hover{background:#F1F2F4;color:#172B4D}
+.nav-item.active{background:#E9F2FF;color:#0c66e4;font-weight:600}
+.nav-item.active::before{
+  content:'';position:absolute;left:0;top:6px;bottom:6px;
+  width:3px;border-radius:2px;background:#0c66e4;
+}
+.nav-item svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.sidebar-footer{
+  padding:8px 8px 12px;border-top:1px solid #DFE1E6;
+  display:flex;flex-direction:column;gap:2px;
+}
+.pill-sim{
+  margin:10px 12px 0;
+  display:flex;align-items:center;justify-content:center;
+  padding:5px 12px;border-radius:20px;
+  background:#EDE9FE;color:#7C3AED;
+  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;
+}
+
+/* ── Main content ── */
+.main{flex:1;overflow-y:auto;min-width:0}
+.page-header{
+  background:#fff;border-bottom:1px solid #DFE1E6;
+  padding:16px 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  flex-shrink:0;
+}
+.page-title{font-size:15px;font-weight:700;color:#172B4D;line-height:1.2}
+.page-sub{font-size:12px;color:#5E6C84;margin-top:2px}
+.content{padding:24px;display:flex;flex-direction:column;gap:24px}
+
+/* ── Section group ── */
+.section-group{display:flex;flex-direction:column;gap:16px}
+.section-header{display:flex;align-items:center;gap:12px}
+.section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#5E6C84;white-space:nowrap}
+.section-desc{font-size:11px;color:rgba(94,108,132,.7);margin-top:1px;line-height:1.4}
+.section-line{flex:1;height:1px;background:#DFE1E6}
+
+/* ── Card ── */
+.card{
+  background:#fff;border-radius:8px;
+  border:1px solid #DFE1E6;
+  box-shadow:0 1px 1px rgba(9,30,66,.13),0 0 1px rgba(9,30,66,.18);
+}
+.card:hover{box-shadow:0 2px 8px rgba(9,30,66,.12),0 0 1px rgba(9,30,66,.18)}
+.card-header{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  padding:12px 16px;border-bottom:1px solid #F1F2F4;background:#F8FAFC;
+}
+.card-title{font-size:13px;font-weight:600;color:#172B4D}
+.card-sub{font-size:10px;color:#5E6C84;margin-top:2px}
+
+/* ── KPI card ── */
+.kpi-card{
+  background:#fff;border-radius:8px;
+  border:1px solid #DFE1E6;
+  box-shadow:0 1px 1px rgba(9,30,66,.13),0 0 1px rgba(9,30,66,.18);
+  padding:16px;
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;gap:12px;
+  cursor:pointer;
+}
+.kpi-card:hover{box-shadow:0 3px 12px rgba(9,30,66,.12),0 0 1px rgba(9,30,66,.18);transform:translateY(-1px)}
+.kpi-bar{position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:8px 0 0 8px}
+.kpi-bar-blue{background:#0c66e4}
+.kpi-bar-red{background:#ef4444}
+.kpi-bar-green{background:#10b981}
+.kpi-bar-amber{background:#fbbf24}
+.kpi-icon-wrap{display:flex;align-items:flex-start;justify-content:space-between;padding-left:8px}
+.kpi-icon{display:inline-flex;padding:6px;border-radius:6px}
+.kpi-icon svg{width:16px;height:16px;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.kpi-icon-blue{background:#E9F2FF}.kpi-icon-blue svg{stroke:#0c66e4}
+.kpi-icon-red{background:#FEF2F2}.kpi-icon-red svg{stroke:#dc2626}
+.kpi-icon-green{background:#ECFDF5}.kpi-icon-green svg{stroke:#059669}
+.kpi-icon-amber{background:#FFFBEB}.kpi-icon-amber svg{stroke:#d97706}
+.kpi-body{padding-left:8px}
+.kpi-value{font-size:30px;font-weight:800;line-height:1;letter-spacing:-.01em}
+.kpi-value-blue{color:#172B4D}
+.kpi-value-red{color:#dc2626}
+.kpi-value-green{color:#047857}
+.kpi-value-amber{color:#b45309}
+.kpi-unit{font-size:14px;font-weight:500;color:#5E6C84;margin-left:2px}
+.kpi-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#344563;margin-top:6px}
+.kpi-hint{font-size:11px;color:#5E6C84;margin-top:2px;line-height:1.3}
+
+/* ── Grids ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.grid-6-kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+
+/* ── Chart card ── */
+.chart-card{
+  background:#fff;border-radius:8px;
+  border:1px solid #DFE1E6;
+  box-shadow:0 1px 1px rgba(9,30,66,.13),0 0 1px rgba(9,30,66,.18);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.chart-head{padding:12px 16px;border-bottom:1px solid #F1F2F4;background:#F8FAFC}
+.chart-t{font-size:13px;font-weight:600;color:#172B4D}
+.chart-s{font-size:10px;color:#5E6C84;margin-top:2px}
+.chart-body{flex:1;padding:12px 8px 8px;min-height:0}
+
+/* ── Pill badges ── */
+.pill{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.pill-red{background:#FEE2E2;color:#DC2626}
+.pill-green{background:#D1FAE5;color:#065F46}
+.pill-yellow{background:#FEF3C7;color:#92400E}
+.pill-blue{background:#DBEAFE;color:#1D4ED8}
+.pill-purple{background:#EDE9FE;color:#7C3AED}
+.pill-gray{background:#F1F2F4;color:#5E6C84}
+
+/* ── Root cause cards ── */
+.rc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.rc-card{
+  background:#fff;border:1px solid #DFE1E6;border-radius:8px;
+  padding:14px;display:flex;gap:12px;
+  box-shadow:0 1px 1px rgba(9,30,66,.08);
+}
+.rc-icon{
+  flex-shrink:0;width:30px;height:30px;border-radius:50%;
+  background:#FEE2E2;display:flex;align-items:center;justify-content:center;margin-top:1px;
+}
+.rc-icon svg{width:14px;height:14px;stroke:#DC2626;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.rc-content{flex:1;min-width:0}
+.rc-header{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:5px}
+.rc-num{font-family:'SF Mono',Consolas,monospace;font-size:11px;font-weight:700;background:#F1F2F4;padding:1px 6px;border-radius:3px}
+.rc-desc{font-size:11px;color:#253858;margin-bottom:8px;line-height:1.4}
+.rc-cause-box{background:#FEF2F2;border:1px solid #FECACA;border-radius:6px;padding:8px 10px}
+.rc-cause-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#DC2626;margin-bottom:3px}
+.rc-cause-text{font-size:12px;font-weight:600;color:#B91C1C}
+.rc-cause-detail{font-size:10px;color:#DC2626;margin-top:3px;line-height:1.4}
+.rc-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+
+/* ── Spike cards ── */
+.spike-card{
+  background:#fff;border:1px solid #DFE1E6;border-radius:8px;padding:16px;
+  display:flex;gap:16px;
+  box-shadow:0 1px 1px rgba(9,30,66,.08);
+}
+.spike-stat{min-width:80px;text-align:center;flex-shrink:0}
+.spike-pct-up{font-size:22px;font-weight:800;color:#DC2626}
+.spike-pct-down{font-size:22px;font-weight:800;color:#059669}
+.spike-period{font-size:12px;font-weight:700;color:#172B4D;margin-top:6px}
+.spike-range{font-size:10px;color:#5E6C84;margin-top:1px}
+.spike-area{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:#DBEAFE;color:#1D4ED8;display:inline-block;margin-top:5px}
+.spike-content{flex:1;min-width:0}
+.spike-cause{font-size:12px;color:#344563;line-height:1.6}
+.spike-tickets{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px}
+.spike-chip{font-family:'SF Mono',Consolas,monospace;font-size:10px;padding:2px 6px;border-radius:4px;background:#F1F2F4;color:#5E6C84;border:1px solid #DFE1E6}
+
+/* ── Insight panels ── */
+.insight-row{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid #F1F2F4}
+.insight-row:last-child{border-bottom:none}
+.insight-count{font-size:15px;font-weight:800;color:#172B4D;flex-shrink:0;min-width:20px}
+.insight-name{font-size:12px;color:#253858;flex:1;min-width:0}
+.trend-row{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid #F1F2F4}
+.trend-row:last-child{border-bottom:none}
+.trend-dot{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-size:9px;font-weight:700}
+.trend-up{background:#FEE2E2;color:#DC2626}
+.trend-down{background:#D1FAE5;color:#059669}
+.trend-text{font-size:12px;color:#344563;line-height:1.5;flex:1}
+.rec-row{padding:9px 0;border-bottom:1px solid #F1F2F4}
+.rec-row:last-child{border-bottom:none}
+.rec-text{font-size:12px;color:#344563;line-height:1.5;margin-bottom:6px}
+
+/* ── Table ── */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead th{
+  background:#F8FAFC;color:#5E6C84;
+  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;
+  padding:9px 12px;text-align:left;
+  border-bottom:2px solid #DFE1E6;white-space:nowrap;
+}
+tbody td{padding:9px 12px;border-bottom:1px solid #F1F2F4;color:#253858;vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:#F8FAFC}
+.mono{font-family:'SF Mono',Consolas,monospace;font-size:11px}
+.state-res{background:#D1FAE5;color:#065F46;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;white-space:nowrap}
+.state-open{background:#FEE2E2;color:#B91C1C;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;white-space:nowrap}
+.state-prog{background:#FEF3C7;color:#92400E;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;white-space:nowrap}
+.sla-breach{background:#FEE2E2;color:#B91C1C;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap}
+.sla-ok{background:#D1FAE5;color:#065F46;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;white-space:nowrap}
+.p1{background:#FEE2E2;color:#B91C1C;border:1px solid #FECACA;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap}
+.p2{background:#FEF3C7;color:#92400E;border:1px solid #FDE68A;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap}
+.p3{background:#DBEAFE;color:#1E40AF;border:1px solid #BFDBFE;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap}
+.chk{color:#059669;font-weight:700}
+.crs{color:#DC2626;font-weight:700}
+
+/* ── Progress bar ── */
+.prog{height:6px;background:#F1F2F4;border-radius:3px;overflow:hidden;margin:10px 0 6px}
+.prog-fill{height:100%;border-radius:3px}
+
+/* ── RITM summary ── */
+.ritm-stat{text-align:center;background:#F8FAFC;border:1px solid #DFE1E6;border-radius:6px;padding:10px 8px}
+.ritm-stat-val{font-size:22px;font-weight:800}
+.ritm-stat-lbl{font-size:10px;color:#5E6C84;margin-top:3px}
+
+/* ── Print ── */
+@media print{html,body{overflow:visible;height:auto}.app{height:auto}.body-wrap{overflow:visible}.main{overflow:visible}.sidebar{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ══ TOP NAV ═══════════════════════════════════════════════════ -->
+<header class="topnav">
+  <!-- App switcher -->
+  <button class="topnav-appswitch">
+    <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+      <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+    </svg>
+  </button>
+
+  <!-- Brand -->
+  <a class="topnav-brand" href="#">
+    <div class="topnav-brand-icon">
+      <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    </div>
+    <span class="topnav-brand-name">OpsIntel</span>
+  </a>
+
+  <!-- Search -->
+  <div class="topnav-search">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" placeholder="Search tickets, runs, issues…" readonly>
+  </div>
+
+  <!-- Right actions -->
+  <div class="topnav-right">
+    <button class="btn-primary">
+      <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Create
+    </button>
+    <button class="btn-icon">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14M12 2v2m0 18v-2m8-8h2M2 12h2m14.71-5.29 1.42-1.42M4.93 19.07l1.42-1.42M4.93 4.93 3.51 3.51M19.07 19.07l1.42 1.42"/></svg>
+    </button>
+    <button class="btn-icon">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    </button>
+    <button class="user-avatar">OI</button>
+  </div>
+</header>
+
+<!-- ══ BODY ═══════════════════════════════════════════════════════ -->
+<div class="body-wrap">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-icon">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="sidebar-header-text">
+        <p>OpsIntel</p>
+        <p>Agentic Dashboard</p>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div>
+        <div class="nav-group-label">Overview</div>
+        <div class="nav-items">
+          <button class="nav-item active">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            Executive Dashboard
+          </button>
+        </div>
+      </div>
+      <div>
+        <div class="nav-group-label">Analysis</div>
+        <div class="nav-items">
+          <button class="nav-item">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            Incident Analytics
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="nav-item">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        Configuration
+      </button>
+      <button class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Logs
+      </button>
+      <div class="pill-sim">Simulation Mode</div>
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main">
+    <div class="page-header">
+      <div>
+        <div class="page-title">Executive Dashboard</div>
+        <div class="page-sub">RITM operations intelligence · latest completed analysis</div>
+      </div>
+      <button class="btn-primary">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        New Analysis
+      </button>
+    </div>
+
+    <div class="content">
+
+      <!-- ── Run Stats KPIs ── -->
+      <div class="grid-6-kpi">
+        <!-- Total Runs -->
+        <div class="kpi-card">
+          <span class="kpi-bar kpi-bar-blue"></span>
+          <div class="kpi-icon-wrap">
+            <span class="kpi-icon kpi-icon-blue">
+              <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </span>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-value kpi-value-blue">10</div>
+            <div class="kpi-title">Total Runs</div>
+            <div class="kpi-hint">All time analysis runs</div>
+          </div>
+        </div>
+        <!-- Running -->
+        <div class="kpi-card">
+          <span class="kpi-bar kpi-bar-green"></span>
+          <div class="kpi-icon-wrap">
+            <span class="kpi-icon kpi-icon-green">
+              <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+            </span>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-value kpi-value-green">0</div>
+            <div class="kpi-title">Running</div>
+            <div class="kpi-hint">No active runs</div>
+          </div>
+        </div>
+        <!-- Completed -->
+        <div class="kpi-card">
+          <span class="kpi-bar kpi-bar-green"></span>
+          <div class="kpi-icon-wrap">
+            <span class="kpi-icon kpi-icon-green">
+              <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </span>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-value kpi-value-green">9</div>
+            <div class="kpi-title">Completed</div>
+            <div class="kpi-hint">Successfully finished</div>
+          </div>
+        </div>
+        <!-- Errors -->
+        <div class="kpi-card">
+          <span class="kpi-bar kpi-bar-red"></span>
+          <div class="kpi-icon-wrap">
+            <span class="kpi-icon kpi-icon-red">
+              <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </span>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-value kpi-value-red">1</div>
+            <div class="kpi-title">Errors</div>
+            <div class="kpi-hint">Failed or blocked</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Ticket Metrics KPIs ── -->
+      <div class="grid-5">
+        <!-- Total Tickets -->
+        <div class="kpi-card">
+          <span class="kpi-bar kpi-bar-blue"></span>
+          <div class="kpi-icon-wrap">
+            <span class="kpi-icon kpi-icon-blue">
+              <svg viewBox="0 0 24 24"><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h6"/><path d="m16 2 4 4-8 8H8v-4l8-8z"/></svg>
+            </span>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-value kpi-value-blue">36</div>
+            <div class="kpi-title">Total Tickets</div>
+            <div class="kpi-hint">8 open · 28 resolved</div>
+          </div>
+        </div>
+        <!-- P1 Critical -->
+        <div class="kpi-card">
+          <span class="kpi-bar kpi-bar-red"></span>
+          <div class="kpi-icon-wrap">
+            <span class="kpi-icon kpi-icon-red">
+              <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </span>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-value kpi-value-red">11</div>
+            <div class="kpi-title">P1 Critical</div>
+            <div class="kpi-hint">21 P2 high priority</div>
+          </div>
+        </div>
+        <!-- SLA Breach Rate -->
+        <div class="kpi-card">
+          <span class="kpi-bar kpi-bar-red"></span>
+          <div class="kpi-icon-wrap">
+            <span class="kpi-icon kpi-icon-red">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 8 14"/></svg>
+            </span>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-value kpi-value-red">25%</div>
+            <div class="kpi-title">SLA Breach Rate</div>
+            <div class="kpi-hint">of tickets breached SLA</div>
+          </div>
+        </div>
+        <!-- Avg Resolution -->
+        <div class="kpi-card">
+          <span class="kpi-bar kpi-bar-blue"></span>
+          <div class="kpi-icon-wrap">
+            <span class="kpi-icon kpi-icon-blue">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </span>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-value kpi-value-blue">4.2<span class="kpi-unit">h</span></div>
+            <div class="kpi-title">Avg Resolution</div>
+            <div class="kpi-hint">mean time to resolve</div>
+          </div>
+        </div>
+        <!-- Resolved -->
+        <div class="kpi-card">
+          <span class="kpi-bar kpi-bar-green"></span>
+          <div class="kpi-icon-wrap">
+            <span class="kpi-icon kpi-icon-green">
+              <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </span>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-value kpi-value-green">29</div>
+            <div class="kpi-title">Resolved</div>
+            <div class="kpi-hint">78% resolution rate</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Incident Analytics ── -->
+      <section class="section-group">
+        <div class="section-header">
+          <div>
+            <div class="section-label">Incident Analytics</div>
+            <div class="section-desc">Tickets by application, approval status, department, and delay reason</div>
+          </div>
+          <div class="section-line"></div>
+        </div>
+
+        <!-- 4 charts -->
+        <div class="grid-4">
+          <div class="chart-card">
+            <div class="chart-head"><div class="chart-t">Tickets by Application / Service</div><div class="chart-s">Business service distribution — 36 tickets</div></div>
+            <div class="chart-body" style="height:260px"><canvas id="c-app"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-head"><div class="chart-t">Tickets by Approval Requirement</div><div class="chart-s">36 tickets total — 13 require CAB / data-owner approval</div></div>
+            <div class="chart-body" style="height:260px"><canvas id="c-appr"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-head"><div class="chart-t">Tickets by Department</div><div class="chart-s">Incident ownership by department — 3-month period</div></div>
+            <div class="chart-body" style="height:260px"><canvas id="c-dept"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-head"><div class="chart-t">SLA Breach — Root Cause by Delay Stage</div><div class="chart-s">9 SLA-breached tickets · primary delay phase</div></div>
+            <div class="chart-body" style="height:260px"><canvas id="c-delay"></canvas></div>
+          </div>
+        </div>
+
+        <!-- SLA Root Cause list -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title" style="display:flex;align-items:center;gap:6px">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                SLA Breached Tickets
+              </div>
+              <div class="card-sub">Per-ticket breakdown of what caused the SLA breach and why · 9 breaches</div>
+            </div>
+            <span class="pill pill-red">9 breaches</span>
+          </div>
+          <div style="padding:16px">
+            <div class="rc-grid" id="rc-grid"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── RITM Compliance ── -->
+      <section class="section-group">
+        <div class="section-header">
+          <div>
+            <div class="section-label">RITM Compliance</div>
+            <div class="section-desc">Approval-required tickets and compliance tracking against defined rules</div>
+          </div>
+          <div class="section-line"></div>
+        </div>
+        <div class="grid-2">
+          <div class="chart-card">
+            <div class="chart-head"><div class="chart-t">RITM Compliance by Month</div><div class="chart-s">Compliant vs non-compliant among approval-required tickets</div></div>
+            <div class="chart-body" style="height:240px"><canvas id="c-ritm"></canvas></div>
+          </div>
+          <div class="card" style="display:flex;flex-direction:column">
+            <div class="card-header">
+              <div>
+                <div class="card-title" style="display:flex;align-items:center;gap:6px">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                  RITM Compliance Summary
+                </div>
+                <div class="card-sub">CAB / data-owner approval compliance · Q2 2026</div>
+              </div>
+              <span class="pill pill-yellow">62%</span>
+            </div>
+            <div style="padding:16px;flex:1">
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">
+                <div class="ritm-stat"><div class="ritm-stat-val" style="color:#172B4D">13</div><div class="ritm-stat-lbl">Require Approval</div></div>
+                <div class="ritm-stat" style="background:#ECFDF5;border-color:#A7F3D0"><div class="ritm-stat-val" style="color:#059669">✓ 8</div><div class="ritm-stat-lbl" style="color:#059669">Compliant</div></div>
+                <div class="ritm-stat" style="background:#FEF2F2;border-color:#FECACA"><div class="ritm-stat-val" style="color:#DC2626">✗ 5</div><div class="ritm-stat-lbl" style="color:#DC2626">Non-Compliant</div></div>
+              </div>
+              <div class="prog"><div class="prog-fill" style="width:62%;background:#10b981"></div></div>
+              <p style="font-size:11px;color:#344563;line-height:1.7;margin-bottom:12px">5 tickets were closed or remain open without mandatory approval documentation. INC2604009, INC2605009, INC2606003, INC2606005, and INC2606010 all required CAB or data-owner approval but no comment was recorded. This constitutes a compliance breach under the Change Management Policy v3.2.</p>
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#5E6C84;margin-bottom:6px">Non-Compliant Tickets</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px">
+                <span style="font-family:monospace;font-size:11px;padding:3px 8px;border-radius:4px;background:#FEF2F2;color:#DC2626;border:1px solid #FECACA">INC2604009</span>
+                <span style="font-family:monospace;font-size:11px;padding:3px 8px;border-radius:4px;background:#FEF2F2;color:#DC2626;border:1px solid #FECACA">INC2605009</span>
+                <span style="font-family:monospace;font-size:11px;padding:3px 8px;border-radius:4px;background:#FEF2F2;color:#DC2626;border:1px solid #FECACA">INC2606003</span>
+                <span style="font-family:monospace;font-size:11px;padding:3px 8px;border-radius:4px;background:#FEF2F2;color:#DC2626;border:1px solid #FECACA">INC2606005</span>
+                <span style="font-family:monospace;font-size:11px;padding:3px 8px;border-radius:4px;background:#FEF2F2;color:#DC2626;border:1px solid #FECACA">INC2606010</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Spike Detection ── -->
+      <section class="section-group">
+        <div class="section-header">
+          <div>
+            <div class="section-label">Spike &amp; Dip Detection</div>
+            <div class="section-desc">Anomalous incident volume periods vs rolling baseline</div>
+          </div>
+          <div class="section-line"></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-head"><div class="chart-t">Weekly Incidents vs Baseline</div><div class="chart-s">Baseline: 3 incidents/week · spikes highlighted in red · dip in green</div></div>
+          <div class="chart-body" style="height:220px"><canvas id="c-spike"></canvas></div>
+        </div>
+        <div class="grid-2" id="spike-grid"></div>
+      </section>
+
+      <!-- ── Insights ── -->
+      <section class="section-group">
+        <div class="section-header">
+          <div class="section-label">Insights &amp; Recommendations</div>
+          <div class="section-line"></div>
+        </div>
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-header"><div class="card-title">Top Issues</div></div>
+            <div style="padding:12px 16px">
+              <div class="insight-row"><span class="insight-count">3</span><span class="insight-name" style="margin:0 8px">Certificate Lifecycle Failures</span><span class="pill pill-red">high</span></div>
+              <div class="insight-row"><span class="insight-count">3</span><span class="insight-name" style="margin:0 8px">Security Attacks &amp; Intrusions</span><span class="pill pill-red">high</span></div>
+              <div class="insight-row"><span class="insight-count">4</span><span class="insight-name" style="margin:0 8px">Application / ERP Outages</span><span class="pill pill-red">high</span></div>
+              <div class="insight-row"><span class="insight-count">6</span><span class="insight-name" style="margin:0 8px">Network Infrastructure Instability</span><span class="pill pill-yellow">med</span></div>
+              <div class="insight-row"><span class="insight-count">5</span><span class="insight-name" style="margin:0 8px">Database &amp; Backup Operations</span><span class="pill pill-yellow">med</span></div>
+              <div class="insight-row"><span class="insight-count">3</span><span class="insight-name" style="margin:0 8px">Identity &amp; Access Misconfigurations</span><span class="pill pill-yellow">med</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">Observed Trends</div></div>
+            <div style="padding:12px 16px">
+              <div class="trend-row"><div class="trend-dot trend-up">↑</div><span class="trend-text">May was peak incident month (14, 6×P1) — SAP upgrade, DDoS, and VPN cert expiry drove critical load</span></div>
+              <div class="trend-row"><div class="trend-dot trend-down">↓</div><span class="trend-text">June P1 count dropped to 2 after Security Operations reinforcement</span></div>
+              <div class="trend-row"><div class="trend-dot trend-up">↑</div><span class="trend-text">Security incidents up 67% MoM (Apr: 3 → May: 5 → Jun: 5) — sustained threat pressure</span></div>
+              <div class="trend-row"><div class="trend-dot trend-up">↑</div><span class="trend-text">DBA Team carrying growing backlog — 3 open/in-progress tickets spanning 6+ weeks</span></div>
+              <div class="trend-row"><div class="trend-dot trend-down">↓</div><span class="trend-text">Avg resolution improved from 5.1h (May) to 3.4h (June) as runbook automation deployed</span></div>
+              <div class="trend-row"><div class="trend-dot trend-up">↑</div><span class="trend-text">RITM compliance deteriorating in June — 3 of 6 approval-required tickets non-compliant</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">Recommendations</div></div>
+            <div style="padding:12px 16px">
+              <div class="rec-row"><div class="rec-text">Implement automated certificate lifecycle management with 30-day pre-expiry alerting — 3 P1s were certificate-related</div><div style="display:flex;gap:4px"><span class="pill pill-red">high</span><span class="pill pill-yellow">med effort</span></div></div>
+              <div class="rec-row"><div class="rec-text">Deploy centralised patch compliance dashboard and enforce 14-day patching SLA — 47 servers non-compliant</div><div style="display:flex;gap:4px"><span class="pill pill-red">high</span><span class="pill pill-green">low effort</span></div></div>
+              <div class="rec-row"><div class="rec-text">Conduct privileged access review and implement PAM solution — 18 over-provisioned accounts identified</div><div style="display:flex;gap:4px"><span class="pill pill-red">high</span><span class="pill pill-yellow">med effort</span></div></div>
+              <div class="rec-row"><div class="rec-text">Enforce approval documentation policy: mandate SNOW workflow gates before ticket closure</div><div style="display:flex;gap:4px"><span class="pill pill-red">high</span><span class="pill pill-green">low effort</span></div></div>
+              <div class="rec-row"><div class="rec-text">Automate disk-capacity alerting at 80% threshold on all production servers</div><div style="display:flex;gap:4px"><span class="pill pill-yellow">med</span><span class="pill pill-green">low effort</span></div></div>
+              <div class="rec-row"><div class="rec-text">Establish DR restore test schedule (quarterly) and update RTO targets</div><div style="display:flex;gap:4px"><span class="pill pill-yellow">med</span><span class="pill pill-red">high effort</span></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Run History / All Tickets ── -->
+      <section class="section-group">
+        <div class="section-header">
+          <div class="section-label">All Incidents — Q2 2026</div>
+          <div class="section-line"></div>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Ticket #</th><th>Description</th><th>Pri</th><th>State</th>
+                  <th>Category</th><th>Assignment Group</th><th>Department</th>
+                  <th>Opened</th><th>Resolved</th><th>SLA</th><th>Appr</th><th>Compliant</th><th>Delay</th>
+                </tr>
+              </thead>
+              <tbody id="tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <div style="height:16px"></div>
+    </div><!-- /content -->
+  </main>
+</div><!-- /body-wrap -->
+</div><!-- /app -->
+
+<script>
+/* ── Chart.js defaults ── */
+Chart.defaults.font.family = "'Inter', system-ui, sans-serif";
+Chart.defaults.font.size   = 11;
+Chart.defaults.color       = '#5E6C84';
+Chart.defaults.plugins.legend.labels.boxWidth  = 10;
+Chart.defaults.plugins.legend.labels.padding   = 10;
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+
+const TT = {
+  backgroundColor:'#fff', borderColor:'#DFE1E6', borderWidth:1,
+  titleColor:'#172B4D', bodyColor:'#344563',
+  cornerRadius:6, padding:8,
+  boxWidth:8, boxHeight:8,
+  callbacks:{},
+};
+const GRID_OPT = { color:'#F1F2F4', drawBorder:false };
+const TICK_OPT = { color:'#7A869A', font:{size:10} };
+const AXIS = { grid:GRID_OPT, ticks:TICK_OPT, border:{display:false} };
+
+/* ── Charts ── */
+
+// Application dist donut
+new Chart(document.getElementById('c-app'), {
+  type:'doughnut',
+  data:{
+    labels:['Identity Mgmt','Remote Access','Database Svcs','Finance ERP','Email Svcs','Endpoint Sec','Collab Svcs','LAN Svcs','Other'],
+    datasets:[{data:[7,5,5,4,3,3,2,2,5],backgroundColor:['#0c66e4','#2898bd','#22a06b','#e2b203','#e2483d','#8270db','#da62ac','#4cae4f','#758195'],borderWidth:2,borderColor:'#fff'}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,cutout:'56%',plugins:{tooltip:{...TT},legend:{position:'right',labels:{font:{size:10},padding:7}}}}
+});
+
+// Approval donut
+new Chart(document.getElementById('c-appr'), {
+  type:'doughnut',
+  data:{
+    labels:['Approval Required','No Approval Needed'],
+    datasets:[{data:[13,23],backgroundColor:['#8F7EE7','#579DFF'],borderWidth:2,borderColor:'#fff'}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,cutout:'58%',plugins:{tooltip:{...TT},legend:{position:'bottom',labels:{font:{size:11},padding:12}}}}
+});
+
+// Department horizontal bar
+new Chart(document.getElementById('c-dept'), {
+  type:'bar',
+  data:{
+    labels:['IT Security','IT Operations','IT Infrastructure','App Services','Finance & HR','Svc Delivery'],
+    datasets:[{label:'Incidents',data:[10,9,7,4,4,2],backgroundColor:'#0c66e4',borderRadius:4,borderSkipped:false}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},tooltip:{...TT}},scales:{x:{...AXIS,beginAtZero:true,ticks:{...TICK_OPT,stepSize:2}},y:{...AXIS}}}
+});
+
+// Delay reasons bar
+new Chart(document.getElementById('c-delay'), {
+  type:'bar',
+  data:{
+    labels:['Triage','Approval','Execution','Escalation','Resource','Dependency'],
+    datasets:[{label:'Breaches',data:[2,2,2,1,1,1],backgroundColor:'#F87462',borderRadius:4,borderSkipped:false}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...TT}},scales:{x:{...AXIS},y:{...AXIS,beginAtZero:true,ticks:{...TICK_OPT,stepSize:1}}}}
+});
+
+// RITM grouped bar
+new Chart(document.getElementById('c-ritm'), {
+  type:'bar',
+  data:{
+    labels:['Apr 2026','May 2026','Jun 2026'],
+    datasets:[
+      {label:'Compliant',    data:[2,3,3],backgroundColor:'#22A06B',borderRadius:4,borderSkipped:false},
+      {label:'Non-Compliant',data:[1,1,3],backgroundColor:'#F87462',borderRadius:4,borderSkipped:false},
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{tooltip:{...TT},legend:{position:'top'}},scales:{x:{...AXIS},y:{...AXIS,beginAtZero:true,ticks:{...TICK_OPT,stepSize:1}}}}
+});
+
+// Spike detection bar + baseline
+const WEEKS=['Apr W1','Apr W2','Apr W3','Apr W4','May W1','May W2','May W3','May W4','Jun W1','Jun W2','Jun W3','Jun W4'];
+const INC=[2,4,3,3,3,4,3,4,3,3,2,2];
+const SPIKE_IDX=[1,5,7]; const DIP_IDX=[10,11];
+new Chart(document.getElementById('c-spike'), {
+  type:'bar',
+  data:{
+    labels:WEEKS,
+    datasets:[
+      {type:'bar',label:'Incidents',data:INC,backgroundColor:INC.map((_,i)=>SPIKE_IDX.includes(i)?'#F87462':DIP_IDX.includes(i)?'#22A06B':'#579DFF'),borderRadius:4,borderSkipped:false},
+      {type:'line',label:'Baseline (3)',data:Array(12).fill(3),borderColor:'#C1C7D0',borderDash:[5,4],borderWidth:1.5,pointRadius:0,fill:false},
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{tooltip:{...TT}},scales:{x:{...AXIS,ticks:{...TICK_OPT,maxRotation:30}},y:{...AXIS,beginAtZero:true,ticks:{...TICK_OPT,stepSize:1}}}}
+});
+
+/* ── Root cause cards ── */
+const BREACHED = [
+  {num:'INC2604002',desc:'Active Directory domain controller replication failure',pri:'1',delay:'Approval',detail:'CAB approved emergency change required before AD Team could begin remediation',grp:'Active Directory Team',dept:'IT Security'},
+  {num:'INC2604006',desc:'Exchange Online email delivery delays — marketing department',pri:'2',delay:'Execution',detail:'Ticket in progress — remediation blocked by third-party Exchange dependency, no resolution before SLA expired',grp:'Email/Messaging Team',dept:'IT Operations'},
+  {num:'INC2604008',desc:'Nightly backup job failure on PROD-DB-01 — insufficient space',pri:'2',delay:'Triage',detail:'Took 1+ day to triage root cause — initial responders misclassified severity before DBA escalation',grp:'DBA Team',dept:'IT Infrastructure'},
+  {num:'INC2605002',desc:'Antivirus definition update failure across 180 endpoints',pri:'2',delay:'Dependency',detail:'Third-party AV vendor patch delayed — dependent on vendor fix before mass remediation could proceed',grp:'Security Operations',dept:'IT Security'},
+  {num:'INC2605003',desc:'SAP BASIS upgrade failure — ERP rollback required',pri:'1',delay:'Execution',detail:'Complex multi-system rollback took 60+ hours; upgrade window underestimated for Finance/HR scope',grp:'SAP Basis Team',dept:'Finance & HR'},
+  {num:'INC2605009',desc:'VPN client certificate mass-expiry — 320 remote users disconnected',pri:'1',delay:'Approval',detail:'Approval required but not obtained — missing authorisation sign-off before SLA expired',grp:'Security Operations',dept:'IT Security'},
+  {num:'INC2605014',desc:'Microsoft Teams calling service outage — PSTN calls failing',pri:'2',delay:'Escalation',detail:'Security Ops stretched from May W2 events; Teams escalation delayed 6+ hours before UC engaged',grp:'Unified Communications',dept:'IT Operations'},
+  {num:'INC2606001',desc:'SSL certificate expired on API gateway — mobile app auth broken',pri:'1',delay:'Triage',detail:'Certificate expiry not pre-empted by monitoring; triage time consumed before emergency CAB convened',grp:'Security Operations',dept:'IT Security'},
+  {num:'INC2606009',desc:'DR backup restore test failure — RTO target of 4 hours not met',pri:'2',delay:'Resource',detail:'DR test lacked dedicated bandwidth; competing incident workload delayed execution past RTO',grp:'DBA Team',dept:'IT Infrastructure'},
+];
+const RC_CLR={Triage:'#E2B203',Approval:'#F87462',Execution:'#579DFF',Escalation:'#22A06B',Dependency:'#8270DB',Resource:'#2ABFBF'};
+const rcGrid=document.getElementById('rc-grid');
+BREACHED.forEach(t=>{
+  rcGrid.innerHTML+=`<div class="rc-card">
+    <div class="rc-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+    <div class="rc-content">
+      <div class="rc-header">
+        <span class="rc-num">${t.num}</span>
+        <span class="${t.pri==='1'?'p1':t.pri==='2'?'p2':'p3'}">P${t.pri}</span>
+      </div>
+      <div class="rc-desc">${t.desc}</div>
+      <div class="rc-cause-box">
+        <div class="rc-cause-label">Root Cause</div>
+        <div class="rc-cause-text">${t.delay}</div>
+        <div class="rc-cause-detail">${t.detail}</div>
+      </div>
+      <div class="rc-tags">
+        <span class="pill pill-gray" style="font-size:10px">${t.grp}</span>
+        <span class="pill pill-gray" style="font-size:10px">${t.dept}</span>
+      </div>
+    </div>
+  </div>`;
+});
+
+/* ── Spike event cards ── */
+const SPIKES=[
+  {period:'Apr W2',range:'Apr 8–14, 2026',dir:'up',pct:33,area:'Infrastructure, Network, Email',cause:'Disk space exhaustion on PROD-APP-04 converged with core switch port flapping — two independent infrastructure failures in the same week amplified by an Exchange delivery delay.',tickets:['INC2604003','INC2604004','INC2604006','INC2604007']},
+  {period:'May W2',range:'May 11–17, 2026',dir:'up',pct:33,area:'Security, Infrastructure',cause:'Concurrent DDoS attack on public web cluster (P1) and UPS bypass in Server Room A (P1) — two unrelated high-severity events in the same week requiring immediate all-hands response.',tickets:['INC2605005','INC2605006','INC2605007','INC2605008']},
+  {period:'May W4',range:'May 26–31, 2026',dir:'up',pct:33,area:'Security, Database, Collaboration',cause:'Sustained security pressure: RDP brute-force attack (P1) overlapped with Teams PSTN outage and SQL replication lag. Security Ops already stretched — escalation delays contributed to PSTN SLA breach.',tickets:['INC2605012','INC2605013','INC2605014']},
+  {period:'Jun W3–W4',range:'Jun 15–28, 2026',dir:'down',pct:33,area:'All',cause:'Positive signal — volume dropped 33% below baseline after Security Ops reinforcement (+2 FTE) and deployment of automated runbook scripts for certificate and patch management.',tickets:['INC2606008','INC2606009']},
+];
+const sg=document.getElementById('spike-grid');
+SPIKES.forEach(s=>{
+  const up=s.dir==='up';
+  sg.innerHTML+=`<div class="spike-card">
+    <div class="spike-stat">
+      <div class="${up?'spike-pct-up':'spike-pct-down'}">${up?'+':'-'}${s.pct}%</div>
+      <div style="font-size:10px;color:#7A869A;margin-top:1px">${up?'above':'below'} baseline</div>
+      <div class="spike-period">${s.period}</div>
+      <div class="spike-range">${s.range}</div>
+      <span class="spike-area">${s.area}</span>
+    </div>
+    <div class="spike-content">
+      <div class="spike-cause">${s.cause}</div>
+      <div class="spike-tickets">${s.tickets.map(t=>`<span class="spike-chip">${t}</span>`).join('')}</div>
+    </div>
+  </div>`;
+});
+
+/* ── Ticket table ── */
+const TICKETS=[
+  {n:'INC2604001',d:'VPN Gateway HA failover event — primary unit unresponsive',p:'1',s:'Resolved',c:'Network',g:'Network Operations',dept:'IT Operations',o:'2026-04-02',r:'2026-04-02',sla:false,a:false,ao:false,dl:null,ok:true},
+  {n:'INC2604002',d:'Active Directory domain controller replication failure',p:'1',s:'Resolved',c:'Security',g:'Active Directory Team',dept:'IT Security',o:'2026-04-05',r:'2026-04-07',sla:true,a:true,ao:true,dl:'Approval',ok:true},
+  {n:'INC2604003',d:'SAP Finance module transaction delays exceeding 45 seconds',p:'2',s:'Resolved',c:'Application',g:'SAP Basis Team',dept:'Finance & HR',o:'2026-04-07',r:'2026-04-08',sla:false,a:false,ao:false,dl:null,ok:true},
+  {n:'INC2604004',d:'Disk space critical on PROD-APP-04 — 3% free remaining',p:'2',s:'Resolved',c:'Infrastructure',g:'Linux Server Team',dept:'IT Infrastructure',o:'2026-04-09',r:'2026-04-10',sla:false,a:false,ao:false,dl:null,ok:true},
+  {n:'INC2604005',d:'User account locked after repeated failed authentication attempts',p:'3',s:'Resolved',c:'Access',g:'Service Desk',dept:'Service Delivery',o:'2026-04-10',r:'2026-04-10',sla:false,a:true,ao:true,dl:null,ok:true},
+  {n:'INC2604006',d:'Exchange Online email delivery delays — marketing department',p:'2',s:'In Progress',c:'Email',g:'Email/Messaging Team',dept:'IT Operations',o:'2026-04-12',r:null,sla:true,a:false,ao:false,dl:'Execution',ok:true},
+  {n:'INC2604007',d:'Core switch port flapping causing intermittent LAN instability',p:'2',s:'Resolved',c:'Network',g:'Network Operations',dept:'IT Operations',o:'2026-04-14',r:'2026-04-14',sla:false,a:false,ao:false,dl:null,ok:true},
+  {n:'INC2604008',d:'Nightly backup job failure on PROD-DB-01 — insufficient space',p:'2',s:'Resolved',c:'Database',g:'DBA Team',dept:'IT Infrastructure',o:'2026-04-16',r:'2026-04-17',sla:true,a:false,ao:false,dl:'Triage',ok:true},
+  {n:'INC2604009',d:'SSL certificate expiry warning — customer portal (14 days)',p:'2',s:'Open',c:'Security',g:'Security Operations',dept:'IT Security',o:'2026-04-19',r:null,sla:false,a:true,ao:false,dl:null,ok:false},
+  {n:'INC2604010',d:'Multiple printers offline — Building C third floor cluster',p:'3',s:'Resolved',c:'Hardware',g:'Desktop Support',dept:'Service Delivery',o:'2026-04-21',r:'2026-04-22',sla:false,a:false,ao:false,dl:null,ok:true},
+  {n:'INC2604011',d:'Cisco core router BGP misconfiguration — partial route loss',p:'1',s:'Resolved',c:'Network',g:'Network Operations',dept:'IT Operations',o:'2026-04-24',r:'2026-04-24',sla:false,a:false,ao:false,dl:null,ok:true},
+  {n:'INC2604012',d:'Microsoft Teams audio quality degradation in conference rooms',p:'3',s:'Open',c:'Collaboration',g:'Unified Communications',dept:'IT Operations',o:'2026-04-28',r:null,sla:false,a:false,ao:false,dl:null,ok:true},
+  {n:'INC2605001',d:'Production database server filesystem 100% full — service impact',p:'1',s:'Resolved',c:'Database',g:'DBA Team',dept:'IT Infrastructure',o:'2026-05-02',r:'2026-05-02',sla:false,a:false,ao:false,dl:null,ok:true},
+  {n:'INC2605002',d:'Antivirus definition update failure across 180 manufacturing endpoints',p:'2',s:'Resolved',c:'Security',g:'Security Operations',dept:'IT Security',o:'2026-05-04',r:'2026-05-05',sla:true,a:false,ao:false,dl:'Dependency',ok:true},
+  {n:'INC2605003',d:'SAP BASIS upgrade failure — ERP rollback required across Finance/HR',p:'1',s:'Resolved',c:'Application',g:'SAP Basis Team',dept:'Finance & HR',o:'2026-05-07',r:'2026-05-09',sla:true,a:true,ao:true,dl:'Execution',ok:true},
+  {n:'INC2605004',d:'File server permissions misconfiguration — Sales team data exposed',p:'2',s:'Resolved',c:'Access',g:'Active Directory Team',dept:'IT Security',o:'2026-05-09',r:'2026-05-09',sla:false,a:true,ao:true,dl:null,ok:true},
+  {n:'INC2605005',d:'Suspected DDoS attack on public-facing web servers — traffic spike 40×',p:'1',s:'Resolved',c:'Security',g:'Security Operations',dept:'IT Security',o:'2026-05-12',r:'2026-05-12',sla:false,a:false,ao:false,dl:null,ok:true},
+  {n:'INC2605006',d:'Azure AD Connect LDAP sync failure — 2,400 accounts not synced',p:'2',s:'Resolved',c:'Access',g:'Active Directory Team',dept:'IT Security',o:'2026-05-13',r:'2026-05-13',sla:false,a:true,ao:true,dl:null,ok:true},
+  {n:'INC2605007',d:'Backup tape rotation overdue — off-site pickup missed for 8 days',p:'2',s:'Resolved',c:'Database',g:'DBA Team',dept:'IT Infrastructure',o:'2026-05-14',r:'2026-05-15',sla:false,a:false,ao:false,dl:null,ok:true},
+  {n:'INC2605008',d:'UPS power failure — Server Room A on bypass for 4 hours',p:'1',s:'Resolved',c:'Hardware',g:'Data Center Ops',dept:'IT Infrastructure',o:'2026-05-17',r:'2026-05-17',sla:false,a:false,ao:false,dl:null,ok:true},
+  {n:'INC2605009',d:'VPN client certificate mass-expiry — 320 remote users disconnected',p:'1',s:'Resolved',c:'Security',g:'Security Operations',dept:'IT Security',o:'2026-05-19',r:'2026-05-20',sla:true,a:true,ao:false,dl:'Approval',ok:false},
+  {n:'INC2605010',d:'CRM application response time degraded — avg 8s for key workflows',p:'2',s:'Resolved',c:'Application',g:'Application Support',dept:'Application Services',o:'2026-05-21',r:'2026-05-22',sla:false,a:false,ao:false,dl:null,ok:true},
+  {n:'INC2605011',d:'Intermittent DNS resolution failures — finance and HR segments',p:'2',s:'Resolved',c:'Network',g:'Network Operations',dept:'IT Operations',o:'2026-05-23',r:'2026-05-23',sla:false,a:false,ao:false,dl:null,ok:true},
+  {n:'INC2605012',d:'SQL Server replication latency exceeding 4 hours on PROD-DB-03',p:'2',s:'In Progress',c:'Database',g:'DBA Team',dept:'IT Infrastructure',o:'2026-05-26',r:null,sla:false,a:false,ao:false,dl:null,ok:true},
+  {n:'INC2605013',d:'RDP brute-force attack detected — 12,000 failed attempts in 1 hour',p:'1',s:'Resolved',c:'Security',g:'Security Operations',dept:'IT Security',o:'2026-05-28',r:'2026-05-28',sla:false,a:false,ao:false,dl:null,ok:true},
+  {n:'INC2605014',d:'Microsoft Teams calling service outage — PSTN calls failing',p:'2',s:'Resolved',c:'Collaboration',g:'Unified Communications',dept:'IT Operations',o:'2026-05-30',r:'2026-05-31',sla:true,a:false,ao:false,dl:'Escalation',ok:true},
+  {n:'INC2606001',d:'SSL certificate expired on API gateway — mobile app authentication broken',p:'1',s:'Resolved',c:'Security',g:'Security Operations',dept:'IT Security',o:'2026-06-02',r:'2026-06-02',sla:true,a:true,ao:true,dl:'Triage',ok:true},
+  {n:'INC2606002',d:'PROD-WEB-02 sustained CPU utilisation at 95% — response degraded',p:'2',s:'Resolved',c:'Infrastructure',g:'Linux Server Team',dept:'IT Infrastructure',o:'2026-06-04',r:'2026-06-04',sla:false,a:false,ao:false,dl:null,ok:true},
+  {n:'INC2606003',d:'Privileged account access control review — 18 over-provisioned accounts',p:'2',s:'Open',c:'Security',g:'Security Operations',dept:'IT Security',o:'2026-06-07',r:null,sla:false,a:true,ao:false,dl:null,ok:false},
+  {n:'INC2606004',d:'Email gateway spam filter malfunction — false positives blocking legit mail',p:'2',s:'Resolved',c:'Email',g:'Email/Messaging Team',dept:'IT Operations',o:'2026-06-09',r:'2026-06-10',sla:false,a:false,ao:false,dl:null,ok:true},
+  {n:'INC2606005',d:'Patch Tuesday compliance gap — 47 servers missing critical patches',p:'2',s:'In Progress',c:'Security',g:'Security Operations',dept:'IT Security',o:'2026-06-11',r:null,sla:false,a:true,ao:false,dl:null,ok:false},
+  {n:'INC2606006',d:'ERP payment module processing failure — order pipeline blocked',p:'1',s:'Resolved',c:'Application',g:'SAP Basis Team',dept:'Finance & HR',o:'2026-06-14',r:'2026-06-14',sla:false,a:true,ao:true,dl:null,ok:true},
+  {n:'INC2606007',d:'Spanning tree loop detected on VLAN 30 — intermittent packet loss',p:'2',s:'Resolved',c:'Network',g:'Network Operations',dept:'IT Operations',o:'2026-06-16',r:'2026-06-16',sla:false,a:false,ao:false,dl:null,ok:true},
+  {n:'INC2606008',d:'Password policy violation detected — 23 accounts using weak credentials',p:'3',s:'Open',c:'Security',g:'Security Operations',dept:'IT Security',o:'2026-06-19',r:null,sla:false,a:false,ao:false,dl:null,ok:true},
+  {n:'INC2606009',d:'DR backup restore test failure — RTO target of 4 hours not met',p:'2',s:'Resolved',c:'Database',g:'DBA Team',dept:'IT Infrastructure',o:'2026-06-22',r:'2026-06-24',sla:true,a:true,ao:true,dl:'Resource',ok:true},
+  {n:'INC2606010',d:'VPN client software rollout causing authentication errors on 65 devices',p:'2',s:'In Progress',c:'Network',g:'Network Operations',dept:'IT Operations',o:'2026-06-24',r:null,sla:false,a:true,ao:false,dl:null,ok:false},
+];
+
+const sc=s=>s==='Resolved'?'state-res':s==='Open'?'state-open':'state-prog';
+const fd=d=>d?d.slice(0,10):'—';
+const tb=document.getElementById('tbody');
+TICKETS.forEach(t=>{
+  tb.innerHTML+=`<tr>
+    <td class="mono">${t.n}</td>
+    <td style="max-width:280px;white-space:normal;line-height:1.3">${t.d}</td>
+    <td><span class="${t.p==='1'?'p1':t.p==='2'?'p2':'p3'}">P${t.p}</span></td>
+    <td><span class="${sc(t.s)}">${t.s}</span></td>
+    <td>${t.c}</td><td>${t.g}</td><td>${t.dept}</td>
+    <td class="mono" style="white-space:nowrap">${fd(t.o)}</td>
+    <td class="mono" style="white-space:nowrap">${fd(t.r)}</td>
+    <td>${t.sla?'<span class="sla-breach">Breached</span>':'<span class="sla-ok">Met</span>'}</td>
+    <td style="text-align:center">${t.a?(t.ao?'<span class="chk">✓</span>':'<span class="crs">✗</span>'):'<span style="color:#C1C7D0">—</span>'}</td>
+    <td style="text-align:center">${t.ok?'<span class="chk">✓</span>':'<span class="crs">✗</span>'}</td>
+    <td>${t.dl?`<span class="pill pill-yellow" style="font-size:10px">${t.dl}</span>`:'<span style="color:#C1C7D0">—</span>'}</td>
+  </tr>`;
+});
+</script>
+</body>
+</html>
